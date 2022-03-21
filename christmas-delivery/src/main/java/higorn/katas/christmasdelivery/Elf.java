@@ -12,9 +12,9 @@ public class Elf {
     this.freeElfConsumer = freeElfConsumer;
   }
 
-  public void loadSleigh(Present present, Sleigh sleigh) {
+  public void loadSleigh(Present present, SantasSleigh sleigh) {
     packPresent();
-    sleigh.addPresent(present);
+    sleigh.pack(present);
     if (freeElfConsumer != null)
       freeElfConsumer.accept(this);
   }

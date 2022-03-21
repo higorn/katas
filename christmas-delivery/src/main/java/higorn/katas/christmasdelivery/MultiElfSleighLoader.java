@@ -8,16 +8,16 @@ import java.util.concurrent.TimeUnit;
 
 public class MultiElfSleighLoader {
   private final ElfPool         elfPool;
-  private final Sleigh          sleigh;
+  private final SantasSleigh    sleigh;
   private final ToyMachine      toyMachine;
   private final ExecutorService threadPool;
   private final Set<Integer>    naughtyFamilies;
 
-  public MultiElfSleighLoader(ElfPool elfPool, Sleigh sleigh, ToyMachine toyMachine) {
+  public MultiElfSleighLoader(ElfPool elfPool, SantasSleigh sleigh, ToyMachine toyMachine) {
     this(elfPool, sleigh, toyMachine, new HashSet<>());
   }
 
-  public MultiElfSleighLoader(ElfPool elfPool, Sleigh sleigh, ToyMachine toyMachine, Set<Integer> naughtyFamilies) {
+  public MultiElfSleighLoader(ElfPool elfPool, SantasSleigh sleigh, ToyMachine toyMachine, Set<Integer> naughtyFamilies) {
     this.elfPool = elfPool;
     this.sleigh = sleigh;
     this.toyMachine = toyMachine;
@@ -29,13 +29,22 @@ public class MultiElfSleighLoader {
     var start = System.currentTimeMillis();
     var numberOfPresent = toyMachine.getNumberOfPresent();
     var elfSize = elfPool.size();
+    startSleighLoading();
+    awaitLoadingTermination(numberOfPresent, elfSize);
+    var end = System.currentTimeMillis();
+    return (int) (end - start);
+  }
+
+  private void startSleighLoading() {
     while (toyMachine.hasPresent()) {
       var present = toyMachine.getPresent();
       if (naughtyFamilies.contains(present.familyId))
         continue;
       threadPool.submit(() -> elfPool.getElf().loadSleigh(present, sleigh));
     }
+  }
 
+  private void awaitLoadingTermination(int numberOfPresent, int elfSize) {
     threadPool.shutdown();
     try {
       var awaitTime = elfSize * numberOfPresent * 100;
@@ -44,7 +53,5 @@ public class MultiElfSleighLoader {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    var end = System.currentTimeMillis();
-    return (int) (end - start);
   }
 }

@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Sleigh {
+public class Sleigh implements SantasSleigh {
   public final Map<Integer, List<Present>> presents;
 
   public Sleigh() {
     this.presents = new ConcurrentHashMap<>();
   }
 
-  public synchronized void addPresent(Present present) {
+  @Override
+  public synchronized void pack(Present present) {
     if (presents.containsKey(present.familyId)) {
       presents.get(present.familyId).add(present);
       return;

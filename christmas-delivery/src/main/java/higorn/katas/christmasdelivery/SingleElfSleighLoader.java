@@ -1,11 +1,11 @@
 package higorn.katas.christmasdelivery;
 
 public class SingleElfSleighLoader {
-  private final Elf        elf;
-  private final Sleigh     sleigh;
-  private final ToyMachine toyMachine;
+  private final Elf          elf;
+  private final SantasSleigh sleigh;
+  private final ToyMachine   toyMachine;
 
-  public SingleElfSleighLoader(Elf elf, Sleigh sleigh, ToyMachine toyMachine) {
+  public SingleElfSleighLoader(Elf elf, SantasSleigh sleigh, ToyMachine toyMachine) {
     this.elf = elf;
     this.sleigh = sleigh;
     this.toyMachine = toyMachine;
