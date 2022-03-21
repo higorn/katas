@@ -1,0 +1,3 @@
+last_name, first_name, date_of_birth, email
+Nunes, Higor, 2022-03-07, higorn@gmail.com
+Beiersdorf, Suznen, 2022-03-07, suznen@gmail.com
